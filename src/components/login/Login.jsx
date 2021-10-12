@@ -1,13 +1,30 @@
-import React, {useContext} from 'react'
-import { GoogleLogin } from '../../firebase/Auth.js';
+import React, {useState} from 'react'
+import { emailLogin, GoogleLogin } from '../../firebase/Auth.js';
 
 import postit from "../../images/post-it.png";
-import { UserContext } from '../../context/UserContext';
 import { useHistory } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({setUser}) => {
 
-    const { setUser } = useContext(UserContext);
+  const initialInputs = {
+    email: '',
+    password: ''
+}
+
+const handleOnChange = (e) => {
+  const { id, value } = e.target
+  const newObject = { ...inputs, [id]: value }
+  setInputs(newObject)
+}
+
+const handleSubmit = (e) => {
+  console.log(inputs.email)
+  e.preventDefault();
+  emailLogin(inputs.email, inputs.password)
+  .then((user) => console.log("Login exitoso"))
+}
+
+const [inputs, setInputs] = useState(initialInputs)
     const history = useHistory();
 
     const handleGoogleAuth = () => {
@@ -21,22 +38,29 @@ const Login = () => {
         history.push('/notes')
       });
   }
-    
+  
     return (
-        <div>
+      <div>
       <img src={postit} alt="post-it" />
       <h1 className="app-name">LABNOTES</h1>
-      <form className="form">
+      <form className="form" onSubmit = {handleSubmit}>
         <h3 className="form__header">Iniciar sesión</h3>
-
         <label htmlFor="userEmail">Correo</label>
         <input
+          onChange={handleOnChange}
+          id="email"
+          type="email"
+          value={inputs.email}
           name="userEmail"
           placeholder="Ingresa tu Email"
           className="form__input"
         ></input>
-        <label htmlFor="userPassword">Crea una contraseña</label>
+        <label htmlFor="userPassword">Contraseña</label>
         <input
+          onChange={handleOnChange}
+          id="password"
+          type="password"
+          value={inputs.password}
           name="userPassword"
           placeholder="Ingresa tu contraseña"
           className="form__input"

@@ -1,26 +1,48 @@
-import React, { useState} from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import "./App.css";
 import Home from "./components/home/Home";
-
 import Login from "./components/login/Login";
 import Notes from "./components/notes/Notes";
 import SignUp from "./components/sign-up/SignUp";
-import { UserContext } from './context/UserContext';
+import { auth } from "./firebase/firebase-config";
 
 function App() {
-  const [user, setUser] = useState({})
+
+  const [ user, setUser ] = useState({});
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if(user?.uid) {
+        setUser({
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email
+        })
+      }
+    })
+  }, [])
+  
   return (
-    <UserContext.Provider value= {{user, setUser}}>
     <Router>
       <div className="App">
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/notes" component={Notes} />
+      <Switch>
+        <Route exact path="/">
+          <Home user={user} />
+        </Route>
+        <Route path="/login">
+          <Login setUser={setUser}/>
+        </Route>
+        <Route path="/signup">
+          <SignUp />
+        </Route>
+        <Route path="/notes">
+          <Notes user={user}/>
+        </Route>
+      </Switch>
       </div>
     </Router>
-    </UserContext.Provider>
   );
 }
 
