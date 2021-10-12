@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;700&display=swap');
+/* font-family: 'Bebas Neue', cursive; */
+.home-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.home-container img {
+    width: 40%;
+    margin: 0 auto;
+}
+.app-name {
+    color: #fff;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 4rem;
+}
+.button {
+    height: 50px;
+    border: none;
+    width: 50%;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.button--login {
+    background-color: #F4E131;
+    margin-bottom: 30px;
+}
+.button--signIn {
+    background-color: #FF73A9;
+}
