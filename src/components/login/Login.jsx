@@ -10,6 +10,7 @@ const Login = ({setUser}) => {
     email: '',
     password: ''
 }
+const [inputs, setInputs] = useState(initialInputs)
 
 const handleOnChange = (e) => {
   const { id, value } = e.target
@@ -24,7 +25,6 @@ const handleSubmit = (e) => {
   .then((user) => console.log("Login exitoso"))
 }
 
-const [inputs, setInputs] = useState(initialInputs)
     const history = useHistory();
 
     const handleGoogleAuth = () => {
